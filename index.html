@@ -43,22 +43,29 @@
     <button id="click-btn">КЛИК!</button>
 
     <script>
-        let tg = window.Telegram.WebApp;
+        const tg = window.Telegram ? window.Telegram.WebApp : null;
+
         let score = 0;
         const scoreElement = document.getElementById('score');
         const btn = document.getElementById('click-btn');
 
-        tg.expand(); // расширяем на всё окно
+        if (tg) {
+            tg.expand();
+            if (tg.ready) tg.ready();
+        }   else {
+            console.warn("Telegram WebApp не загружен. Работаем в режиме обычного браузера.");
+        }
 
         btn.addEventListener('click', () => {
             score++;
             scoreElement.innerText = score;
 
-            // вибрация
-            if (tg.HapticFeedback) {
+            if (tg && tg.HapticFeedback) {
                 tg.HapticFeedback.impactOccurred('medium');
             }
-        });
+
+            console.log("Счет:", score);
+        })
     </script>
 </body>    
 </html>
