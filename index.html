@@ -3,57 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clicker Bot</title>
+    <title>Ghost Clicker</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!-- Подключаем пиксельный шрифт -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    
     <style>
         body {
-            background-color: #1a1a1a;
-            color: white;
+            margin: 0;
+            padding: 0;
+            /* Устанавливаем твой фон */
+            background: url('bg.jpg') no-repeat center center fixed;
+            background-size: cover;
+            height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: sans-serif;
+            font-family: 'Press Start 2P', cursive;
+            overflow: hidden;
+            user-select: none;
         }
-        #score {
-            font-size: 48px;
-            margin-bottom: 20px;
-        }
-        #click-btn {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            border: none;
-            background: linear-gradient(145deg, #f0ad4e, #d9534f);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-            font-size: 24px;
+
+        #score-container {
+            margin-top: 50px;
             color: white;
-            cursor: pointer;
-            transition: transform 0.1s;
+            text-shadow: 2px 2px 5px black;
+            font-size: 20px;
+            text-align: center;
         }
-        #click-btn:active {
-            transform: scale(0.95);
+
+        /* Стиль призрака-кнопки */
+        #ghost-btn {
+            background: none;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            margin-top: auto;
+            margin-bottom: auto;
+            transition: transform 0.1s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        #ghost-btn img {
+            width: 80vw; /* Ширина призрака — 80% от ширины экрана */
+            max-width: 400px;
+            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.2));
+        }
+
+        /* Эффект нажатия */
+        #ghost-btn:active {
+            transform: scale(0.9);
         }
     </style>
 </head>
 <body>
 
-    <div id="score">0</div>
-    <button id="click-btn">КЛИК!</button>
+    <div id="score-container">
+        Счет: <span id="score">0</span>
+    </div>
+
+    <button id="ghost-btn">
+        <img src="ghost.png" alt="Ghost">
+    </button>
 
     <script>
-        const tg = window.Telegram ? window.Telegram.WebApp : null;
-
+        let tg = window.Telegram ? window.Telegram.WebApp : null;
         let score = 0;
         const scoreElement = document.getElementById('score');
-        const btn = document.getElementById('click-btn');
+        const btn = document.getElementById('ghost-btn');
 
         if (tg) {
             tg.expand();
-            if (tg.ready) tg.ready();
-        }   else {
-            console.warn("Telegram WebApp не загружен. Работаем в режиме обычного браузера.");
+            tg.ready();
         }
 
         btn.addEventListener('click', () => {
@@ -63,9 +84,7 @@
             if (tg && tg.HapticFeedback) {
                 tg.HapticFeedback.impactOccurred('medium');
             }
-
-            console.log("Счет:", score);
-        })
+        });
     </script>
-</body>    
+</body>
 </html>
