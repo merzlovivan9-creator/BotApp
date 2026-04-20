@@ -237,11 +237,6 @@
         }
 
         ghostBtn.addEventListener('click', (e) => {
-        ghostBtn.querySelector('img').classList.add('hit-flash');
-            setTimeout(() => {
-                ghostBtn.querySelector('img').classList.remove('hit-flash');
-            }, 100);
-            
             // 1. считаем урон
             let totalDamage = baseDamage * tempMultiplier;
             score += totalDamage;
@@ -265,6 +260,11 @@
             updateUI();
             if (tg && tg.HapticFeedBack)
             tg.HapticFeedBack.impactOccurred('medium');
+            
+        ghostBtn.querySelector('img').classList.add('hit-flash');
+            setTimeout(() => {
+                ghostBtn.querySelector('img').classList.remove('hit-flash');
+            }, 100);
         });
 
         // функция для создания вылетающих элементов
